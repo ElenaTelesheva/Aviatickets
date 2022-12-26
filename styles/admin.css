@@ -1,0 +1,32 @@
+.ban {
+	color: red;
+}
+
+.unban {
+	color: green;
+}
+
+.logo {
+	float: left;
+    font-size: 44px !important;
+    color: #96dad6;
+    margin-right: 0.3em;
+    -webkit-animation:spin 4s linear infinite;
+    -moz-animation:spin 4s linear infinite;
+}
+@-moz-keyframes spin { 
+    100% { -moz-transform: rotate(360deg); } 
+}
+@-webkit-keyframes spin { 
+    100% { -webkit-transform: rotate(360deg); } 
+}
+@keyframes spin { 
+    100% { 
+        -webkit-transform: rotate(360deg); 
+        transform:rotate(360deg); 
+    } 
+}
+
+.back-to-main{
+	margin-right: 0em;
+}

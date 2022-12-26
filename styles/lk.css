@@ -1,0 +1,50 @@
+img.avatar {
+    float:  left;
+    height: 60px;
+    margin-right: 1em;
+    width: 60px;
+}
+
+.page-header h1 {
+    position: relative;
+    top: 0.3em;
+    width: 50%;
+}
+
+td.form-label {
+    float: right;
+    padding-top: 1em !important;
+}
+
+.choose-content {
+    display: none;
+}
+.choose-content-default-opened {
+    display: block;
+}
+
+.nav-pills {
+    margin-bottom: 1em !important;
+}
+
+#tab_money img {
+    float: right;
+}
+#tab_money blockquote {
+    width: 50%;
+}
+
+.page-header-main{
+	padding-left: 2em;
+	padding-right: 2em;
+	margin-top: 0.2em !important;
+	display:flex;
+    justify-content: space-between;
+	align-items: center;
+    margin-right: 10em !important;
+    margin-left: 3em !important;
+}
+#site_logo{
+	height: 5em;
+
+}

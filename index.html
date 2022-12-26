@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Авиабилеты</title>
+
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/new.css">
+
+    <link rel="stylesheet" href="vendor/font-awesome-4.7.0/css/font-awesome.min.css">
+
+    <script src="vendor/jquery.js"></script>
+    <script src="vendor/jquery.tmpl.min.js"></script>
+    <script src="vendor/md5.js"></script>
+    <script src="scripts/user.js"></script>
+    <script src="scripts/city-selectors.js"></script>
+    <script src="scripts/common.js"></script>
+    <script src="scripts/main.js"></script>
+    <script src="scripts/buy.js"></script>
+
+    <link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
+    <script src="vendor/bootstrap/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="vendor/select2/select2.min.css">
+    <script src="vendor/select2/select2.min.js"></script>
+
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="page-header">
+    <img id="site_logo" src="img/logo.png" alt="Логотип сайта">
+    <div class="auth-buttons">
+        <button class="btn btn-primary auth" type="button" data-toggle="modal" data-target="#authModal">Вход</button>
+        <button class="btn register" type="button" data-toggle="modal" data-target="#registerModal">Регистрация</button>
+        <button onclick="window.location.href='lk.html'" class="lk btn btn-info">Личный кабинет</button>
+        <button onclick="window.location.href='admin.html'" class="open-admin btn btn-danger">АДМИН</button>
+        <button class="btn logout" onclick="Auth.logout()">Выход</button>
+    </div>
+
+</div>
+
+<!-- <img id="big_airport" src="img/big_airport.jpg" alt="Аэропорт"> -->
+
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+      <!-- Indicators -->
+      <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class=""></li>
+        <li data-target="#myCarousel" data-slide-to="1" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="2" class=""></li>
+      </ol>
+      <div class="carousel-inner" role="listbox">
+        <div class="item active">
+          <img class="first-slide" src="img/nature_trees.jpg" alt="First slide">
+          
+        </div>
+        <div class="item">
+          <img class="second-slide" src="img/beach_sea.jpg" alt="Second slide">
+          
+        </div>
+        <div class="item">
+          <img class="third-slide" src="img/scotland_city.jpg" alt="Third slide">
+          
+        </div>
+      </div>
+      <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+        <!-- <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> -->
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+        <!-- <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> -->
+        <span class="sr-only">Next</span>
+      </a>
+</div>
+
+<section class="container theme-showcase">
+    <div class="mini_panel">
+        <i class="fa fa-plane logo" aria-hidden="true"></i>
+        <h1>Поиск дешевых авиабилетов</h1>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Поиск авиабилетов</div>
+
+        <div class="panel-body">
+            <div class="row">
+                <div class = "from col-md-2">
+                    <label>Аэропорт вылета</label>
+                    <select class="js-example-basic-single" id="city_from"></select>
+
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="1" id="with_reseats">
+                            С пересадками
+                        </label>
+                    </div>
+                </div>
+                <div class = "destination col-md-2">
+                    <label>Аэропорт прилёта</label>
+                    <select class="js-example-basic-single" id="city_to"></select>
+                </div>
+                <div class = "data_departure col-md-2">
+                    <label>Дата вылета</label>
+                    <input type="date" class = "input_data date" placeholder="Дата вылета">
+                </div>
+                <div class = "flight_class col-md-2">
+                    <label>Категория</label>
+                </div>
+                <div class="price-min col-md-2">
+                    <input type="number" placeholder="Мин. цена">
+                </div>
+
+                <div class="price-max col-md-2">
+                    <input type="number" placeholder="Макс. цена">
+                </div>
+            </div>
+
+            <button class="search_tickets btn btn-primary">Поиск билетов</button>
+        </div>
+    </div>
+
+    <table class="table table-hover" id="search_results">
+        <thead>
+        <tr>
+            <th>Откуда</th>
+            <th>Куда</th>
+            <th>Время вылета</th>
+            <th>Время прилёта</th>
+            <th>Самолёт</th>
+            <th>Класс</th>
+            <th>Ост. билетов</th>
+            <th>Цена, ₽</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</section>
+
+
+
+<script type="text/template" id="search_row_template">
+    <tr data-flight-hash="${hash}">
+        <td>
+            ${airport_from.name}<br>${from}
+        </td>
+        <td>
+            ${airport_to.name}<br>${to}
+        </td>
+        <td>
+            ${time_departure}
+        </td>
+        <td>
+            ${time_arrival}
+        </td>
+        {{if reseats}}
+        <td colspan="3">
+            <button data-flight-id="${id}" type="button" class="btn btn-primary btn-sm btn-reseats" data-toggle="modal" data-target="#myModal">Пересадки! <span class="badge">${reseats.length-1}</span></button>
+        </td>
+        {{else}}
+        <td>
+            ${airplane.name}
+        </td>
+        <td>
+            ${comfort_category.name}
+        </td>
+        <td>
+            ${places_available}
+        </td>
+        {{/if}}
+        <td>
+            ${price}
+        </td>
+        <td>
+            {{if (new User).isAuthorized()}}
+            <button data-flight-id="${id}" class="btn btn-primary buy">
+                <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+            </button>
+            {{/if}}
+        </td>
+    </tr>
+</script>
+
+
+<!-- ПЕРЕСАДКИ -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Список пересадок</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-hover" id="search_reseats">
+                    <thead>
+                    <tr>
+                        <th>Откуда</th>
+                        <th>Куда</th>
+                        <th>Время вылета</th>
+                        <th>Время прилёта</th>
+                        <th>Самолёт</th>
+                        <th>Класс</th>
+                        <th>Ост. билетов</th>
+                        <th>Цена</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ЛОГИН -->
+<div class="modal fade" id="authModal" tabindex="-1" role="dialog" aria-labelledby="authModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="authModalLabel">Вход</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table form-auth table-hover">
+                    <tbody>
+                    <tr>
+                        <td class="login-label">Логин</td>
+                        <td><input class="form-control login"></td>
+                    </tr>
+                    <tr>
+                        <td class="login-label">Пароль</td>
+                        <td>
+                            <input class="form-control password" type="password"><br>
+                            <a onclick="restorePassword()">Забыли пароль?</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="alert alert-danger error-text">Неверный логин или пароль</div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="Auth.authorize()">Войти</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- РЕГИСТРАЦИЯ -->
+<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="registerModalLabel">Регистрация</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table form-register">
+                    <tbody>
+                    <tr>
+                        <td class="login-label">ФИО</td>
+                        <td><input class="form-control" name="name" maxlength="100"></td>
+                    </tr>
+                    <tr>
+                        <td class="login-label">Логин</td>
+                        <td><input class="form-control" name="login" maxlength="100"></td>
+                    </tr>
+                    <tr>
+                        <td class="login-label">email</td>
+                        <td><input class="form-control" name="email" maxlength="100"></td>
+                    </tr>
+                    <tr>
+                        <td class="login-label">Пароль</td>
+                        <td><input class="form-control" name="password" type="password" maxlength="100"></td>
+                    </tr>
+                    <tr>
+                        <td class="login-label">Подтверждение пароля</td>
+                        <td><input class="form-control" name="password-repeat" type="password" maxlength="100"></td>
+                    </tr>
+                    <tr>
+                        <td class="login-label">Фоточка</td>
+                        <td><input class="form-control" name="photo" type="file"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="bg-danger register-error"></div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="Auth.register()">Зарегистрироваться</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/template" id="search_row_template_reseats">
+    <tr>
+        <td>
+            ${airport_from.name}<br>${from}
+        </td>
+        <td>
+            ${airport_to.name}<br>${to}
+        </td>
+        <td>
+            ${time_departure}
+        </td>
+        <td>
+            ${time_arrival}
+        </td>
+        <td>
+            ${airplane.name}
+        </td>
+        <td>
+            ${comfort_category.name}
+        </td>
+        <td>
+            ${places_available}
+        </td>
+        <td>
+            ${price}
+        </td>
+    </tr>
+</script>
+
+<div class="container">
+    <section style="height:80px;"></section>
+    <!----------- Footer ------------>
+    <footer class="footer-bs">
+        <div class="row">
+            <div class="col-md-3 footer-brand animated fadeInLeft">
+                <h2>Airtickets</h2>
+                <p>Наш сервис был специально разработан для удобства покупки билетов по заданным ваши критериям. Спасибо, что выбираете
+                    нас. Счастливого полёта с Airtickets.</p>
+                <p>© 2022, Все права защищены.</p>
+            </div>
+            <div class="col-md-4 footer-nav animated fadeInUp">
+                <h4>Меню —</h4>
+                <div class="col-md-6">
+                    <ul class="pages">
+                        <li><a href="#">Путешествия</a></li>
+                        <li><a href="#">Заказы</a></li>
+                        <li><a href="#">Безопасность</a></li>
+                        <li><a href="#">Багаж</a></li>
+                        <li><a href="#">Ценовая политика</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <ul class="list">
+                        <li><a href="#">О нас</a></li>
+                        <li><a href="#">Контакты</a></li>
+                        <li><a href="#">Условия пользования</a></li>
+                        <li><a href="#">Политика компании</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-2 footer-social animated fadeInDown">
+                <h4>Следите за нами</h4>
+                <ul>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Instagram</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3 footer-ns animated fadeInRight">
+                <h4>Обратная связь</h4>
+                <p>Укажите вашу пользу, если возникли какие-то вопросы</p>
+                <p>
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Поиск...">
+                    <span class="input-group-btn">
+  <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-envelope"></span></button>
+  </span>
+                </div><!-- /input-group -->
+                </p>
+            </div>
+        </div>
+    </footer>
+</div>
+
+</body>
+</html>

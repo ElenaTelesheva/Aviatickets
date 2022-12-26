@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Билеты</title>
+
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/lk.css">
+    <link rel="stylesheet" href="vendor/font-awesome-4.7.0/css/font-awesome.min.css">
+
+    <script src="vendor/jquery.js"></script>
+    <script src="vendor/jquery.tmpl.min.js"></script>
+    <!-- <script src="scripts/city-selectors.js"></script> -->
+    <!-- <script src="scripts/main.js"></script> -->
+    <script src="scripts/user.js"></script>
+    <script src="scripts/common.js"></script>
+    <script src="scripts/lk.js"></script>
+
+    <link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
+    <script src="vendor/bootstrap/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="vendor/select2/select2.min.css"/>
+    <script src="vendor/select2/select2.min.js"></script>
+</head>
+<body>
+<div class="page-header-main">
+    <img id="site_logo" src="img/logo.png" alt="Логотип сайта">
+    <a class="fa fa-arrow-left back-to-main" aria-hidden="true" href="index.html"></a>
+</div>
+ <hr>
+<div class="container">
+
+    <div class="page-header">
+        <img class="avatar">
+        <h1>Личный кабинет</h1>
+    </div>
+
+    <ul class="nav nav-pills">
+        <li role="presentation" class="active"><a href="#" data-choose="search_tickets_result">Мои билеты</a></li>
+        <li role="presentation"><a href="#" data-choose="user_info">Личные данные</a></li>
+        <li role="presentation"><a href="#" data-choose="tab_money">Финансы</a></li>
+    </ul>
+
+
+    <table class="table table-hover list-tickets choose-content choose-content-default-opened" id="search_tickets_result">
+        <thead>
+        <tr>
+            <th>Откуда</th>
+            <th>Куда</th>
+            <th>Время вылета</th>
+            <th>Время прилёта</th>
+            <th>Самолёт</th>
+            <th>Класс</th>
+            <th>Цена</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <table class="table table-hover choose-content user-info" id="user_info">
+        <tbody>
+        <tr>
+            <td class="form-label">ФИО</td>
+            <td><input class="form-control" name="name" maxlength="100"></td>
+        </tr>
+        <tr>
+            <td class="form-label">Логин</td>
+            <td><input class="form-control" name="login" maxlength="100" readonly="true"></td>
+        </tr>
+        <tr>
+            <td class="form-label">email</td>
+            <td><input class="form-control" name="email" maxlength="100"></td>
+        </tr>
+        <tr>
+            <td class="form-label">Новый пароль</td>
+            <td><input class="form-control" name="password" type="password" maxlength="100" placeholder="******"></td>
+        </tr>
+        <tr>
+            <td class="form-label">Подтверждение нового пароля</td>
+            <td><input class="form-control" name="password-repeat" type="password" maxlength="100" placeholder="******">
+            </td>
+        </tr>
+        <tr>
+            <td class="form-label">Фоточка</td>
+            <td><input class="form-control" name="photo" type="file"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <button class="btn btn-primary" onclick="saveUserInfo();">Сохранить</button>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="bg-danger register-error"></div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="choose-content container" id="tab_money">
+        <img src="img/payment-cards.jpeg">
+
+        <h2>Баланс</h2>
+        <blockquote>
+            У вас на счету: <span id="money"></span> ₽
+        </blockquote>
+
+        <h2>Пополнение</h2>
+        <blockquote>
+            Вы можете пополнить Ваш счет <mark>без комиссии</mark> в нашем офисе, расположенном по адресу: г. Бобруйск, ул. Юморяндская, 9А.<br>
+            К оплате принимаются наличные и банковские карты.
+        </blockquote>
+    </div>
+
+    <script type="text/template" id="ticket_row_template">
+        <tr>
+            <td>
+                ${flight.airport_from.name}<br>
+                ${flight.airport_from.country_name}/${flight.airport_from.city_name}
+            </td>
+            <td>
+                ${flight.airport_to.name}<br>
+                ${flight.airport_to.country_name}/${flight.airport_to.city_name}
+            </td>
+            <td>
+                ${flight.time_departure}
+            </td>
+            <td>
+                ${flight.time_arrival}
+            </td>
+            <td>
+                ${flight.airplane.name}
+            </td>
+            <td>
+                ${flight.comfort_category.name}
+            </td>
+            <td>
+                ${price}
+            </td>
+            <td>
+                <button class="btn btn-danger" onclick="removeTicket(${id})">
+                    <i class="fa fa-close" aria-hidden="true"></i>
+                </button>
+            </td>
+        </tr>
+    </script>
+
+</div>
+</body>
+</html>

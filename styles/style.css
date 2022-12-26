@@ -1,0 +1,138 @@
+body {
+    margin-bottom: 15em !important;
+}
+
+.logo {
+	float: left;
+    font-size: 44px !important;
+    color: #96dad6;
+    margin-right: 0.3em;
+    -webkit-animation:spin 4s linear infinite;
+    -moz-animation:spin 4s linear infinite;
+}
+@-moz-keyframes spin { 
+    100% { -moz-transform: rotate(360deg); } 
+}
+@-webkit-keyframes spin { 
+    100% { -webkit-transform: rotate(360deg); } 
+}
+@keyframes spin { 
+    100% { 
+        -webkit-transform: rotate(360deg); 
+        transform:rotate(360deg); 
+    } 
+}
+
+.back-to-main {
+    float: right;
+    font-size: 30px !important;
+    margin-top: 0.5em;
+    cursor: pointer !important;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+.row--search {
+    line-height: 80px;
+}
+.fa-fighter-jet {
+    color: #5d8aa1;
+    font-size: 3em;
+    /* display: none; */
+    position: relative;
+    top: 13px;
+    left: 0;
+    transition-property: left,opacity;
+    transition-timing-function: ease-in;
+    transition-duration: 3s;
+}
+.fa-fighter-jet.flied-out {
+    left: 22em;
+    opacity: 0;
+}
+
+#search_results {
+    display: none;
+}
+.flights-not-found {
+    display: none;
+    font-size: 2em;
+}
+
+.multi_segment{
+	padding: 0 3em;
+	display: flex;
+	flex-direction: column;
+}
+
+.multi_segment > div, .list_flights > div{
+	display: flex;
+}
+.main_inputs{
+	display: flex;
+	align-items: center;
+}
+.main_inputs input{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+
+}
+
+.btn-create-flight, .btn-create-airplane{
+	float: right;
+    margin-right: 3em;
+}
+
+tr.empty, tr.empty_aiplane {
+	display: none;
+}
+
+.btn-reseats {
+	width: 100%;
+}
+.btn-show-reseats {
+    height: 30px;
+    display: block !important;
+    padding-top: 6px !important;
+    cursor: pointer;
+}
+
+.login-label {
+	text-align: right;
+    line-height: 2.2em !important;
+}
+
+.form-auth {
+    position: relative;
+    top: 1em;
+}
+
+.auth-buttons {
+	float: right;
+}
+
+.error-text {
+	display: none;
+}
+
+button.open-admin {
+	display: none;
+}
+
+.price-min input,
+.price-max input {
+	width: 11em;
+}
+
+button.search_tickets {
+	margin-top: 0.8em;
+}
+
+.bought {
+	color: green;
+	font-size: 2.9em !important;
+    margin-left: 0.08em;
+}
